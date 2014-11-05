@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  url: MyText
+  state: MyText
+  lccn: MyText
+  andtext: MyText
+  ortext: MyText
+  phrasetext: MyText
+  date1: MyText
+  date2: MyText
+  datefiltertype: MyText
+
+two:
+  url: MyText
+  state: MyText
+  lccn: MyText
+  andtext: MyText
+  ortext: MyText
+  phrasetext: MyText
+  date1: MyText
+  date2: MyText
+  datefiltertype: MyText

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  publication_id: 1
+  date: MyText
+  seq: 1
+  ed: 1
+
+two:
+  publication_id: 1
+  date: MyText
+  seq: 1
+  ed: 1
