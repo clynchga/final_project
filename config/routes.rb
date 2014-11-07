@@ -7,9 +7,7 @@ Rails.application.routes.draw do
 
   root 'static_pages#index'
 
-  get '/100' => 'pages#basic'
-
-  get '/liquor' => 'pages#textsearch'
+  get '/example' => 'pages#textsearch'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
