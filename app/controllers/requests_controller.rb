@@ -8,18 +8,18 @@ def create
 	@request = Request.new(request_params)
 
 	respond_to do |format|
-	if @request.save
-   		#format.html { redirect_to store_products_path, notice: 'Product was successfully created.' }
-   		#format.json { render :show, status: :created, location: @product }
-	else
-  	 	#format.html { render :new }
-   		#format.json { render json: @product.errors, status: :unprocessable_entity }
+		if @request.save
+	   		format.html { redirect_to requests_path, notice: 'Saved request to db' }
+	   		#format.json { render :show, status: :created, location: @product }
+		else
+	  	 	format.html { render :new }
+	   		#format.json { render json: @product.errors, status: :unprocessable_entity }
+		end
 	end
-end
 end
 
 def index
-	# show recent searches for a user
+	@requests = Request.all
 end 
 
 private
