@@ -3,8 +3,6 @@ require 'json'
 
 class PagesController < ApplicationController
 
-validates :id, :uniqueness => true
-
 include HTTParty
 
 def textsearch
@@ -14,6 +12,10 @@ def textsearch
 	response = HTTParty.get("http://chroniclingamerica.loc.gov/search/pages/results/?dateFilterType=yearRange&date1=1914&date2=1914&andtext=liquor&format=json")
 	@pages = JSON.parse(response.body)
 end
+
+def new
+end
+
 
 def self.save_data_from_api(request_url)
 	response = HTTParty.get(request_url)

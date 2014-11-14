@@ -1,0 +1,35 @@
+<%= form_for(@request) do |f| %>
+  <% if @request.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@request.errors.count, "error") %> prohibited this search from running:</h2>
+
+      <ul>
+      <% @request.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- request fields are state, lccn (publication), andtext, ortext, phrasetext, datefiltertype, date1, date2 -->
+
+  <div class="field">
+    <%= f.select("state", Publication.all.collect {|p| p.state }, {include_blank: 'None'}) %>
+  </div>
+  <div class="field">
+    <%= f.label :andtext %><br>
+    <%= f.text_area :andtext %>
+  </div>
+  <div class="field">
+    <%= f.label :ortext %><br>
+    <%= f.text_area :ortext %>
+  </div>
+  <div class="field">
+  <%= f.label :phrasetext %><br>
+  <%= f.text_area :phrasetext %>
+</div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
+<% end %>
