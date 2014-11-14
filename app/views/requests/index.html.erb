@@ -1,8 +1,16 @@
 <h2> Lists all requests created. Eventually this will show only the current users' requests </h2>
 
 <% @requests.each do |r| %>
-	<p><%= puts "----Request #{r.id} " %></p>
-	<p><%= puts "request body goes here"  %></p>
-	<p><%= puts "date1: #{r.date1} " %></p>
-	<p><%= puts "date2: #{r.date2}" %></p>
+	<p><%= "Request #{r.id}" %></p>
+	<ul>
+		<li><%= "datefiltertype: #{r.datefiltertype}" %></li>
+		<li><%= "date1: #{r.date1} " %></li>
+		<li><%= "date2: #{r.date2}" %></li>
+		<li><%= "andtext: #{r.andtext}" %></li>
+		<li><%= "ortext: #{r.ortext} " %></li>
+		<li><%= "phrasetext: #{r.phrasetext}" %></li>
+		<li><%= "state: #{r.state}" %></li>
+		<li><%= "publication id: #{r.lccn} " %></li>
+		<li><%= "created at: #{r.created_at}" %></li>
+	</ul>
 <% end %>

@@ -17,16 +17,16 @@
  <p>Choose dates</p>
 <div class="field">
     <%= f.label "Date filter type" %><br>
-    <%= f.radio_button(:datefiltertype, "yearRange", :checked => true) %>
-    <%= f.label :datefiltertype_yearRange, "year range" %>
+    <%= f.radio_button(:datefiltertype, "range", :checked => true) %>
+    <%= f.label :datefiltertype_yearRange, "exact date range" %>
   </div>
   <div class="field">
   <%= f.label :date1 %><br>
-  <%= f.number_field( :date1, in: 1836..1922) %>
+  <%= f.date_field( :date1, min: "1836-01-01", max: "1922-12-31") %>
 </div>
   <div class="field">
   <%= f.label :date2 %><br>
-  <%= f.number_field( :date2, in: 1836..1922) %>
+  <%= f.date_field( :date2, min: "1836-01-01", max: "1922-12-31") %>
 </div>
 
 <p>(Optional) Keyword search</p>
