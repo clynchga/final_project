@@ -24,7 +24,7 @@ end
 
 private
 def request_params
-	params.require(:request).permit(:state, :lccn, :andtext, :ortext, :phrasetext, :date1, :date2, :datefiltertype)
+	params.require(:request).permit(:state, :lccn, :andtext, :ortext, :phrasetext, :year1, :month1, :day1, :year2, :month2, :day2)
 end
 
 end
