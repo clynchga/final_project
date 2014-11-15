@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141107020100) do
+ActiveRecord::Schema.define(version: 20141115021558) do
 
   create_table "pages", force: true do |t|
     t.integer  "publication_id"
@@ -39,11 +39,14 @@ ActiveRecord::Schema.define(version: 20141107020100) do
     t.text     "andtext"
     t.text     "ortext"
     t.text     "phrasetext"
-    t.text     "date1"
-    t.text     "date2"
-    t.text     "datefiltertype"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "year1"
+    t.integer  "month1"
+    t.integer  "day1"
+    t.integer  "year2"
+    t.integer  "month2"
+    t.integer  "day2"
   end
 
 end
