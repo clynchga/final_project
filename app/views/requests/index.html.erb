@@ -3,9 +3,8 @@
 <% @requests.each do |r| %>
 	<p><%= "Request #{r.id}" %></p>
 	<ul>
-		<li><%= "datefiltertype: #{r.datefiltertype}" %></li>
-		<li><%= "date1: #{r.date1} " %></li>
-		<li><%= "date2: #{r.date2}" %></li>
+		<li><%= "date1: #{r.year1}/#{r.month1}/#{r.day1}" %></li>
+		<li><%= "date2: #{r.year2}/#{r.month2}/#{r.day2}" %></li>
 		<li><%= "andtext: #{r.andtext}" %></li>
 		<li><%= "ortext: #{r.ortext} " %></li>
 		<li><%= "phrasetext: #{r.phrasetext}" %></li>

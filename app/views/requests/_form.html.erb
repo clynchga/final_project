@@ -14,22 +14,33 @@
 
   <!-- request fields are state, lccn (publication), andtext, ortext, phrasetext, datefiltertype, date1, date2 -->
 
- <p>Choose dates</p>
-<div class="field">
-    <%= f.label "Date filter type" %><br>
-    <%= f.radio_button(:datefiltertype, "range", :checked => true) %>
-    <%= f.label :datefiltertype_yearRange, "exact date range" %>
-  </div>
+ <p>Specify a range of years or exact dates</p>
   <div class="field">
-  <%= f.label :date1 %><br>
-  <%= f.date_field( :date1, min: "1836-01-01", max: "1922-12-31") %>
+  <%= f.label :year1 %><br>
+  <%= f.select :year1, (1836..1922) %>
 </div>
   <div class="field">
-  <%= f.label :date2 %><br>
-  <%= f.date_field( :date2, min: "1836-01-01", max: "1922-12-31") %>
+  <%= f.label :month1 %><br>
+  <%= f.select :month1, (1..12) %>
+</div>
+  <div class="field">
+  <%= f.label :day1 %><br>
+  <%= f.select :day1, (1..31) %>
+</div>
+  <div class="field">
+  <%= f.label :year2 %><br>
+  <%= f.select :year2, (1836..1922), :selected => 1922 %>
+</div>
+  <div class="field">
+  <%= f.label :month2 %><br>
+  <%= f.select :month2, (1..12), :selected => 12 %>
+</div>
+  <div class="field">
+  <%= f.label :day2 %><br>
+  <%= f.select :day2, (1..31), :selected => 31 %>
 </div>
 
-<p>(Optional) Keyword search</p>
+<p>(Optional) Search by keyword</p>
   <div class="field">
     <%= f.label "Contains ALL of keywords" %><br>
     <%= f.text_area :andtext %>
@@ -47,9 +58,9 @@
 
   <div class="field">
     <%= f.label "State" %>
-    <%= f.text_area :state %>
+    <%= f.select :state, Publication.uniq.pluck(:state), :include_blank => true %>
     <%= f.label "Newspaper Title/LCCN" %>
-    <%= f.text_area :lccn %>
+    <%= f.select :lccn, Publication.all.collect { |p| [p.title, p.lccn] }, :include_blank => true %>
   </div>
   
   <div class="actions">
