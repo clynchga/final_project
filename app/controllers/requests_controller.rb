@@ -5,6 +5,7 @@ def new
 end
 
 def create
+	base_url = "http://chroniclingamerica.loc.gov/search/pages/results/?dateFilterType=range"
 	@request = Request.new(request_params)
 
 	respond_to do |format|

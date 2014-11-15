@@ -14,7 +14,7 @@ lines.delete("\n")
 lines.each do |l|
 	pub_data = l.split(" | ")
 	state = pub_data[1]
-	title = pub_data[2].split(". ")[0]
+	title = pub_data[2].split(") ")[0] + ")"
 	city = pub_data[2].match(/\((.+)\)/)[0]
 	lccn = pub_data[3]
 	Publication.create(title: title, state: state, lccn: lccn, city: city)
