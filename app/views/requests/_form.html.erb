@@ -59,7 +59,7 @@
   <div class="field">
     <%= f.label "State" %>
     <%= f.select :state, Publication.uniq.pluck(:state), :include_blank => true %>
-    <%= f.label "Newspaper Title/LCCN" %>
+    <%= f.label "Newspaper Title" %>
     <%= f.select :lccn, Publication.all.collect { |p| [p.title, p.lccn] }, :include_blank => true %>
   </div>
   
