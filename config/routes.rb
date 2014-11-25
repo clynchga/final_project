@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   get '/example' => 'pages#textsearch'
 
+  get '/results/:id' => 'pages#results'
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

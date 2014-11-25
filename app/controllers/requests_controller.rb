@@ -8,25 +8,24 @@ def create
 	@request = Request.new(request_params)
 	@request.url = "http://chroniclingamerica.loc.gov/search/pages/results/?dateFilterType=range&date1=01%2F01%2F1836&date2=12%2F31%2F1922&andtext=&ortext=&phrasetext=&state=&lccn=&format=json"
 	#@request.url = Request.build_url(@request.year1, @request.month1, @request.day1, @request.year2, @request.month2, @request.day2, @request.andtext, @request.ortext, @request.phrasetext, @request.state, @request.lccn)
-	raw_response = HTTParty.get(@request.url)
-	@request.num_pages = JSON.parse(raw_response.body)["totalItems"].to_i
-
+	
 	respond_to do |format|	
 		# if the request object does not already exist, save it and return the object
-		if Request.find_by(url: @request.url).nil? && @request.save
-			@request
-	   		format.html { redirect_to requests_path, notice: 'Saved request to db' }
-
-	   	# if the request url already exists, pull the request object
-	   	elsif Request.find_by(url: @request.url)
-	   		@request = Request.find_by(url: @request.url)
-
-	   		format.html { redirect_to requests_path, notice: 'Located request in db' }
-
-		else
+		if Request.find_by(url: @request.url).nil? 
+			if @request.save
+				#raw_response = HTTParty.get(@request.url)
+				#@request.num_pages = JSON.parse(raw_response.body)["totalItems"].to_i
+	   			format.html { redirect_to "/results/#{@request.id}", notice: 'Saved request to db' }
+	   		else
 	  	 	format.html { render :new }
+			end
+	   	# if the request url already exists, pull the request object
+	   	else
+	   		@request = Request.find_by(url: @request.url)
+	   		format.html { redirect_to "/results/#{@request.id}", notice: 'Located request in db' }
 		end
 	end
+
 end
 
 def index
