@@ -37,10 +37,13 @@ def self.save_data_from_api(request_url)
 		slicelength = pd["url"].lenth - 5
 		page.img_url = pd["url"][0,slicelength] + ".pdf"
 
+		# for each created/found page make a record in the association table with the request id and page id
 		if Page.find_by img_url: page.img_url
+			RequestPage.create(request_id: Request.find_by(url: request_url).id, page_id: Page.find_by(img_url: page.img_url).id)
 			response_pages.append(Page.find_by(img_url: page.img_url))
 		else 
 			page.save 
+			RequestPage.create(request_id: Request.find_by(url: request_url).id, page_id: page.id)
 			response_pages.append(page)
 		end
 	end
