@@ -17,7 +17,7 @@ def create
 				#@request.num_pages = JSON.parse(raw_response.body)["totalItems"].to_i
 	   			format.html { redirect_to "/results/#{@request.id}", notice: 'Saved request to db' }
 	   		else
-	  	 	format.html { render :new }
+	  	 		format.html { render :new }
 			end
 	   	# if the request url already exists, pull the request object
 	   	else

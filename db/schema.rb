@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141125010733) do
+ActiveRecord::Schema.define(version: 20141125021333) do
 
   create_table "pages", force: true do |t|
     t.integer  "publication_id"
@@ -50,9 +50,9 @@ ActiveRecord::Schema.define(version: 20141125010733) do
     t.integer  "num_pages"
   end
 
-  create_table "requests_pages", id: false, force: true do |t|
-    t.integer "request_id", null: false
-    t.integer "page_id",    null: false
+  create_table "requests_pages", force: true do |t|
+    t.integer "request_id"
+    t.integer "page_id"
   end
 
 end

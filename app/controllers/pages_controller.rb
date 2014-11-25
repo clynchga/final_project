@@ -17,13 +17,12 @@ def new
 end
 
 def results
-	request_url = Request.find(params[:id]).url
 	request_id = params[:id]
-
+	request_url = Request.find(request_id).url
+	
 	if RequestPage.find_by(request_id: request_id)
 		# if the request id already exists in the association table, pull the page ids
 
-		
 	else 
 		# make a new request from the api using the request_url
 		@pages = Page.save_data_from_api(request_url)
