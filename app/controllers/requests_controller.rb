@@ -7,13 +7,34 @@ end
 def create
 	@request = Request.new(request_params)
 	@request.url = Request.build_url(@request.year1, @request.month1, @request.day1, @request.year2, @request.month2, @request.day2, @request.andtext, @request.ortext, @request.phrasetext, @request.state, @request.lccn)
-	respond_to do |format|
-		if @request.save
+	respond_to do |format|	
+		# if the request url does not already exist, save it and call Page.save_data_from_api
+		# save the request id and the page id for each of the response pages to the association table
+		if Request.find_by(url: @request.url).nil? && @request.save
+			@pages = Page.save_data_from_api(@request.url)
+			@pages.each do |obj|
+				RequestPage.create(request_id: @request.id, page_id: obj.id)
+			end
+
+			@pages
+
 	   		format.html { redirect_to requests_path, notice: 'Saved request to db' }
-	   		#format.json { render :show, status: :created, location: @product }
+
+	   	# if the request url already exists, pull the request id and match to page ids
+	   	elsif Request.find_by(url: @request.url)
+	   		req_id = Request.find_by(url: @request.url).id
+	   		@pages = []
+	   		match_objs = RequestPage.where(request_id: req_id)
+	   		match_objs.each do |mo|
+	   			@pages.append(Page.find(mo.page_id))
+	   		end
+
+	   		@pages
+
+	   		format.html { redirect_to requests_path, notice: 'Located request in db' }
+
 		else
 	  	 	format.html { render :new }
-	   		#format.json { render json: @product.errors, status: :unprocessable_entity }
 		end
 	end
 end
@@ -25,7 +46,7 @@ end
 def self.build_url(year1, month1, day1, year2, month2, day2, andtext, ortext, phrasetext, state, lccn)
 	base_url = "http://chroniclingamerica.loc.gov/search/pages/results/?dateFilterType=range"
 	# check the keyword and date elements to ensure they are recognized as valid api inputs
-	# this is ugly and repetitive, i'll fix it later
+	# this is ugly and repetitive, fix it later
 	if andtext.match(/\s/) 
 		andtext = andtext.gsub!(/\s+/, '+')
 	end

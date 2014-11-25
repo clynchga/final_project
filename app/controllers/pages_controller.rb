@@ -22,6 +22,8 @@ def self.save_data_from_api(request_url)
 	parsed_response = JSON.parse(response.body)
 	pages_data = parsed_response["items"]
 
+	response_pages = []
+
 	pages_data.each do |pd|
 		page = Page.new
 		page.publication_id = Publication.find_id_by_lccn(pd["lccn"]) 
@@ -34,9 +36,17 @@ def self.save_data_from_api(request_url)
 		end
 		slicelength = pd["url"].lenth - 5
 		page.img_url = pd["url"][0,slicelength] + ".pdf"
-		page.save 
-		page
+
+		if Page.find_by img_url: page.img_url
+			response_pages.append(Page.find_by(img_url: page.img_url))
+		else 
+			page.save 
+			response_pages.append(page)
+		end
 	end
+
+	return response_pages
+
 end
 
 
