@@ -24,7 +24,8 @@ end
 
 def self.build_url(year1, month1, day1, year2, month2, day2, andtext, ortext, phrasetext, state, lccn)
 	base_url = "http://chroniclingamerica.loc.gov/search/pages/results/?dateFilterType=range"
-	# changes to the keyword and date elements to ensure they are recognized as valid api inputs
+	# check the keyword and date elements to ensure they are recognized as valid api inputs
+	# this is ugly and repetitive, i'll fix it later
 	if andtext.match(/\s/) 
 		andtext = andtext.gsub!(/\s+/, '+')
 	end
@@ -46,7 +47,7 @@ def self.build_url(year1, month1, day1, year2, month2, day2, andtext, ortext, ph
 	if day2 < 10
 		day2 = "0#{day2}"
 	end
-	url = base_url + "&date1=#{month1}%2F#{day1}%2F#{year1}&date2=#{month2}%2F#{day2}%2F#{year2}&andtext=#{at}&ortext=#{ot}&phrasetext=#{pt}&state=#{state}&lccn=#{lccn}&format=json" 
+	url = base_url + "&date1=#{month1}%2F#{day1}%2F#{year1}&date2=#{month2}%2F#{day2}%2F#{year2}&andtext=#{andtext}&ortext=#{ortext}&phrasetext=#{phrasetext}&state=#{state}&lccn=#{lccn}&format=json" 
 	url
 end
 
