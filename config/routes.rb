@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   resources :requests, only: [:create, :new, :index]
 
+  root 'requests#new'
+
   get '/example' => 'pages#textsearch'
 
   get '/results/:id' => 'pages#results'
