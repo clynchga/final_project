@@ -11,3 +11,13 @@
 <% end %>
 
 <p><%= "Displaying results #{@pageindex1} through #{@pageindex2} of #{@total_pages}" %></p> 
+
+<% if @thispagenum == 2 %>
+	<%= link_to "Previous Page" , "/results/#{@requestid}" %>
+<% else %>
+	<%= link_to "Previous Page" , "/results/#{@requestid}/page/#{@previouspagenum}" %>
+<% end %>
+
+<% if @pageindex2 < @totalpages %>
+	<%= link_to "Next Page" , "/results/#{@requestid}/page/#{@nextpagenum}" %>
+<% end %>

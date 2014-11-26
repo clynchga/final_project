@@ -10,7 +10,7 @@ def create
 	@request.url = build_url(@request.year1, @request.month1, @request.day1, @request.year2, @request.month2, @request.day2, @request.andtext, @request.ortext, @request.phrasetext, @request.state, @request.lccn)
 	
 	respond_to do |format|	
-		# if the request object does not already exist, save it and return the object
+		# if the request object does not already exist, save it to the db
 		if Request.find_by(url: @request.url).nil? 
 			raw_response = HTTParty.get(@request.url)
 			@request.num_pages = JSON.parse(raw_response.body)["totalItems"]

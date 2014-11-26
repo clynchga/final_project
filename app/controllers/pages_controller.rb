@@ -53,44 +53,66 @@ def paginate_results
 	@total_pages = request.num_pages
 	@pageindex1 = request.index1
 	@pageindex2 = request.index2
+	@previouspagenum = page_num.to_i - 1
+	@nextpagenum = page_num.to_i + 1
+	@thispagenum = page_num.to_i
+
+	@requestid = orig_id
 
 end
 
 
 def save_data_from_api(request_url)
-	response = HTTParty.get(request_url)
-	parsed_response = JSON.parse(response.body)
-	pages_data = parsed_response["items"]
 
 	response_pages = []
 
-	pages_data.each do |pd|
-		page = Page.new
-		page.publication_id = Publication.find_id_by_lccn(pd["lccn"]) 
-		page.date = pd["date"]
-		page.seq = pd["sequence"]
-		page.lccn = pd["lccn"]
+	request_id = Request.find_by(url: request_url)
 
-		slicelength = pd["url"].length - 5
-		page.img_url = pd["url"][0,slicelength] + ".pdf"
+	# check to see if a link record for request-pages already exists
+	# if so, no need to execute another api call, use the cached pages data from the db
 
-		id_sections = pd["id"].split("/")
-		page.datefield = id_sections[3]
+	if Link.find_by(request_id: request_id).nil?
+		response = HTTParty.get(request_url)
+		parsed_response = JSON.parse(response.body)
+		pages_data = parsed_response["items"]
 
-		id_section_ed = id_sections[4]
-		ed_data = id_section_ed.split("-")
-		page.ed = ed_data[1].to_i
+		pages_data.each do |pd|
+			page = Page.new
+			page.publication_id = Publication.find_id_by_lccn(pd["lccn"]) 
+			page.date = pd["date"]
+			page.seq = pd["sequence"]
+			page.lccn = pd["lccn"]
 
-		# for each created/found page make a record in the association table with the request id and page id
-		if Page.find_by img_url: page.img_url
-			#RequestPage.create(request_id: Request.find_by(url: request_url).id, page_id: Page.find_by(img_url: page.img_url).id)
-			response_pages.append(Page.find_by(img_url: page.img_url))
-		else 
-			page.save 
-			#RequestPage.create(request_id: Request.find_by(url: request_url).id, page_id: page.id)
+			slicelength = pd["url"].length - 5
+			page.img_url = pd["url"][0,slicelength] + ".pdf"
+
+			id_sections = pd["id"].split("/")
+			page.datefield = id_sections[3]
+
+			id_section_ed = id_sections[4]
+			ed_data = id_section_ed.split("-")
+			page.ed = ed_data[1].to_i
+
+			page.save
+
+			new_link = Link.new
+			new_link.request_id = request_id
+			new_link.page_id = page.id
+			new_link.save
+
 			response_pages.append(page)
 		end
+	else 
+		link_objs = Link.where(request_id: request_id)
+		link_objs.each do |obj|
+			page_id = obj.page_id
+			page = Page.find(page_id)
+
+			response_pages.append(page)	
+		end
 	end
+
+
 
 	return response_pages
 
