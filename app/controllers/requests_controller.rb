@@ -57,8 +57,8 @@ def build_url(year1, month1, day1, year2, month2, day2, andtext, ortext, phraset
 	if day2 < 10
 		day2 = "0#{day2}"
 	end
-	# return only page 1 results if no keyword search is specified
-	if andtext.nil? && ortext.nil? && phrasetext.nil? 
+	# return only front page results if no keyword search is specified
+	if andtext == "" && ortext == "" && phrasetext == ""
 		url = base_url + "&date1=#{month1}%2F#{day1}%2F#{year1}&date2=#{month2}%2F#{day2}%2F#{year2}&andtext=#{andtext}&ortext=#{ortext}&phrasetext=#{phrasetext}&state=#{state}&lccn=#{lccn}&format=json&sequence=1" 
 	else
 		url = base_url + "&date1=#{month1}%2F#{day1}%2F#{year1}&date2=#{month2}%2F#{day2}%2F#{year2}&andtext=#{andtext}&ortext=#{ortext}&phrasetext=#{phrasetext}&state=#{state}&lccn=#{lccn}&format=json"
