@@ -24,25 +24,36 @@ def results
 	@total_pages = request.num_pages
 	@pageindex1 = request.index1
 	@pageindex2 = request.index2
+	@requestid = request.id
 
 end
 
 def paginate_results
 	orig_id = params[:id]
-	page_id = params[:pagenum]
+	page_num = params[:pagenum]
 
 	orig_url = Request.find(orig_id).url 
-	new_url = orig_url + "#{page_id}" 
+	new_url = orig_url + "#{page_num}" 
+
+	@pages = save_data_from_api(new_url)
 
 	# if this request hasn't been made before, copy the fields of the original request and change the url
 	# save this new request to the db so we remember it
 	if Request.find_by(url: new_url).nil? 
 		oldr = Request.find(orig_id)
-		newr = oldr.clone
+		newr = oldr.dup
 		newr.url = new_url
+		newr.index1 = ((page_num.to_i - 1) * 20) + 1
+		newr.index2 = ((page_num.to_i - 1) * 20) + @pages.length 
+		newr.save 
 	end
 
-	@pages = save_data_from_api(new_url)
+	request = Request.find_by(url: new_url)
+
+	@total_pages = request.num_pages
+	@pageindex1 = request.index1
+	@pageindex2 = request.index2
+
 end
 
 
@@ -59,10 +70,13 @@ def save_data_from_api(request_url)
 		page.date = pd["date"]
 		page.seq = pd["sequence"]
 		page.lccn = pd["lccn"]
+
 		slicelength = pd["url"].length - 5
 		page.img_url = pd["url"][0,slicelength] + ".pdf"
+
 		id_sections = pd["id"].split("/")
 		page.datefield = id_sections[3]
+
 		id_section_ed = id_sections[4]
 		ed_data = id_section_ed.split("-")
 		page.ed = ed_data[1].to_i

@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get '/example' => 'pages#textsearch'
 
   get '/results/:id' => 'pages#results'
+  get '/results/:id/page/:pagenum' => 'pages#paginate_results'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
