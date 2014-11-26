@@ -1,5 +1,12 @@
 <h1>Results go here</h1>
 
+<!-- sample thumbnail url: http://chroniclingamerica.loc.gov/lccn/sn86069496/1914-11-25/ed-1/seq-1/thumbnail.jpg -->
+
 <% @pages.each do |p| %>
-	<p><%= p.img_url %></p>
+	
+	<div><%= p.img_url %></div>
+	<div><%= "http://chroniclingamerica.loc.gov/lccn/#{p.lccn}/#{p.datefield}/ed-#{p.ed}/seq-#{p.seq}/thumbnail.jpg" %></div>
+	<div><%= image_tag "http://chroniclingamerica.loc.gov/lccn/#{p.lccn}/#{p.datefield}/ed-#{p.ed}/seq-#{p.seq}/thumbnail.jpg" %>
 <% end %>
+
+<p><%= "Displaying results #{@pageindex1} through #{@pageindex2} of #{@total_pages}" %></p> 

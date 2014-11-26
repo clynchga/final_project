@@ -12,9 +12,12 @@ def create
 	respond_to do |format|	
 		# if the request object does not already exist, save it and return the object
 		if Request.find_by(url: @request.url).nil? 
+			raw_response = HTTParty.get(@request.url)
+			@request.num_pages = JSON.parse(raw_response.body)["totalItems"]
+			@request.index2 = JSON.parse(raw_response.body)["endIndex"]
+			@request.index1 = JSON.parse(raw_response.body)["startIndex"]
+			
 			if @request.save
-				#raw_response = HTTParty.get(@request.url)
-				#@request.num_pages = JSON.parse(raw_response.body)["totalItems"].to_i
 	   			format.html { redirect_to "/results/#{@request.id}", notice: 'Saved request to db' }
 	   		else
 	  	 		format.html { render :new }
@@ -59,9 +62,9 @@ def build_url(year1, month1, day1, year2, month2, day2, andtext, ortext, phraset
 	end
 	# return only front page results if no keyword search is specified
 	if andtext == "" && ortext == "" && phrasetext == ""
-		url = base_url + "&date1=#{month1}%2F#{day1}%2F#{year1}&date2=#{month2}%2F#{day2}%2F#{year2}&andtext=#{andtext}&ortext=#{ortext}&phrasetext=#{phrasetext}&state=#{state}&lccn=#{lccn}&format=json&sequence=1" 
+		url = base_url + "&date1=#{month1}%2F#{day1}%2F#{year1}&date2=#{month2}%2F#{day2}%2F#{year2}&andtext=#{andtext}&ortext=#{ortext}&phrasetext=#{phrasetext}&state=#{state}&lccn=#{lccn}&format=json&sequence=1&page=" 
 	else
-		url = base_url + "&date1=#{month1}%2F#{day1}%2F#{year1}&date2=#{month2}%2F#{day2}%2F#{year2}&andtext=#{andtext}&ortext=#{ortext}&phrasetext=#{phrasetext}&state=#{state}&lccn=#{lccn}&format=json"
+		url = base_url + "&date1=#{month1}%2F#{day1}%2F#{year1}&date2=#{month2}%2F#{day2}%2F#{year2}&andtext=#{andtext}&ortext=#{ortext}&phrasetext=#{phrasetext}&state=#{state}&lccn=#{lccn}&format=json&page="
 	end
 	url
 end

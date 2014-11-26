@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141125021333) do
+ActiveRecord::Schema.define(version: 20141126014439) do
 
   create_table "pages", force: true do |t|
     t.integer  "publication_id"
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 20141125021333) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "img_url"
+    t.text     "lccn"
+    t.text     "datefield"
   end
 
   create_table "publications", force: true do |t|
@@ -48,6 +50,8 @@ ActiveRecord::Schema.define(version: 20141125021333) do
     t.integer  "month2"
     t.integer  "day2"
     t.integer  "num_pages"
+    t.integer  "index1"
+    t.integer  "index2"
   end
 
   create_table "requests_pages", force: true do |t|
