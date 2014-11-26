@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141126171546) do
+ActiveRecord::Schema.define(version: 20141126185938) do
 
   create_table "links", force: true do |t|
     t.integer  "request_id"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20141126171546) do
     t.text     "lccn"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "sort_title"
   end
 
   create_table "requests", force: true do |t|
