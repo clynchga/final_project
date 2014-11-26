@@ -42,11 +42,11 @@
 
 <p>(Optional) Search by keyword</p>
   <div class="field">
-    <%= f.label "Contains ALL of keywords" %><br>
+    <%= f.label "Contains ALL of the keywords" %><br>
     <%= f.text_area :andtext %>
   </div>
   <div class="field">
-    <%= f.label "Contains any of the keywords" %><br>
+    <%= f.label "Contains ANY of the keywords" %><br>
     <%= f.text_area :ortext %>
   </div>
   <div class="field">
@@ -60,7 +60,7 @@
     <%= f.label "State" %>
     <%= f.select :state, Publication.uniq.pluck(:state), :include_blank => true %>
     <%= f.label "Newspaper Title" %>
-    <%= f.select :lccn, Publication.all.collect { |p| [p.title, p.lccn] }, :include_blank => true %>
+    <%= f.select :lccn, Publication.all.order('title').collect { |p| [p.title, p.lccn] }, :include_blank => true %>
   </div>
   
   <div class="actions">
