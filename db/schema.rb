@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141126142543) do
+ActiveRecord::Schema.define(version: 20141126171546) do
 
   create_table "links", force: true do |t|
     t.integer  "request_id"
@@ -30,6 +30,9 @@ ActiveRecord::Schema.define(version: 20141126142543) do
     t.string   "img_url"
     t.text     "lccn"
     t.text     "datefield"
+    t.integer  "year"
+    t.integer  "month"
+    t.integer  "day"
   end
 
   create_table "publications", force: true do |t|

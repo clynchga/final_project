@@ -88,6 +88,9 @@ def save_data_from_api(request_url)
 
 			id_sections = pd["id"].split("/")
 			page.datefield = id_sections[3]
+			page.year = page.datefield[0,4].to_i
+			page.month = page.datefield[5,2].to_i
+			page.day = page.datefield[8,2].to_i
 
 			id_section_ed = id_sections[4]
 			ed_data = id_section_ed.split("-")

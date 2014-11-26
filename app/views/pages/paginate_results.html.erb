@@ -1,16 +1,19 @@
 <h1>Results go here</h1>
 
-<p><%= link_to "New Search", "/requests/new" %></p>
-
+<p><%= "Displaying results #{@pageindex1} through #{@pageindex2} of #{@total_pages}" %></p> 
 <!-- sample thumbnail url: http://chroniclingamerica.loc.gov/lccn/sn86069496/1914-11-25/ed-1/seq-1/thumbnail.jpg -->
 
 <% @pages.each do |p| %>
-	
-	<div><%= p.img_url %></div>
+	<% pub_name = Publication.find_by(lccn: p.lccn).title %>
+	<% months = [nil,"January","February","March","April","May","June","July","August","September","October","November","December"] %>
+	<% month = months[p.month] %>
+	<% text_url = p.img_url[0,(p.img_url.length - 4)] + "/ocr/" %>
+	<div><%= "#{pub_name}" %></div>
+	<div><%= "#{month} #{p.day}, #{p.year}" %></div>
 	<div><%= image_tag "http://chroniclingamerica.loc.gov/lccn/#{p.lccn}/#{p.datefield}/ed-#{p.ed}/seq-#{p.seq}/thumbnail.jpg" %>
+	<div><%= link_to "PDF", p.img_url %></div>
+	<div><%= link_to "text", text_url %></div>
 <% end %>
-
-<p><%= "Displaying results #{@pageindex1} through #{@pageindex2} of #{@total_pages}" %></p> 
 
 <% if @thispagenum == 2 %>
 	<%= link_to "Previous Page" , "/results/#{@requestid}" %>
@@ -21,3 +24,5 @@
 <% if @pageindex2 < @totalpages %>
 	<%= link_to "Next Page" , "/results/#{@requestid}/page/#{@nextpagenum}" %>
 <% end %>
+
+<p><%= link_to "New Search", "/requests/new" %></p>
