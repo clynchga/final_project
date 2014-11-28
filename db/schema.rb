@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141128161920) do
+ActiveRecord::Schema.define(version: 20141128200137) do
 
   create_table "links", force: true do |t|
     t.integer  "request_id"
@@ -66,14 +66,19 @@ ActiveRecord::Schema.define(version: 20141128161920) do
     t.integer  "index2"
   end
 
-  create_table "requests_pages", force: true do |t|
-    t.integer "request_id"
-    t.integer "page_id"
+  create_table "saves", force: true do |t|
+    t.integer  "page_id"
+    t.integer  "user_id"
+    t.text     "note"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "rps", force: true do |t|
-    t.integer "request_id"
-    t.integer "page_id"
+  create_table "searches", force: true do |t|
+    t.integer  "request_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
