@@ -19,14 +19,14 @@ def create
 			@request.save
 			
 			#if @request.save
-	   		format.html { redirect_to "/results/#{@request.id}", notice: 'Saved request to db' }
+	   		format.html { redirect_to "/results/#{@request.id}" }
 	   		#else
 	  	 		#format.html { render :new }
 			#end
 	   	# if the request url already exists, pull the request object
 	   	else
 	   		@request = Request.find_by(url: @request.url)
-	   		format.html { redirect_to "/results/#{@request.id}", notice: 'Located request in db' }
+	   		format.html { redirect_to "/results/#{@request.id}" }
 		end
 	end
 

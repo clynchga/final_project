@@ -34,8 +34,6 @@ def paginate_results
 	orig_url = Request.find(orig_id).url 
 	new_url = orig_url + "#{page_num}" 
 
-	@pages = save_data_from_api(new_url)
-
 	# if this request hasn't been made before, copy the fields of the original request and change the url
 	# save this new request to the db so we remember it
 	if Request.find_by(url: new_url).nil? 
@@ -43,11 +41,13 @@ def paginate_results
 		newr = oldr.dup
 		newr.url = new_url
 		newr.index1 = ((page_num.to_i - 1) * 20) + 1
-		newr.index2 = ((page_num.to_i - 1) * 20) + @pages.length 
+		newr.index2 = ((page_num.to_i - 1) * 20) + 20 
 		newr.save 
 	end
 
 	request = Request.find_by(url: new_url)
+
+	@pages = save_data_from_api(new_url)
 
 	@total_pages = request.num_pages
 	@pageindex1 = request.index1
@@ -66,12 +66,12 @@ def save_data_from_api(request_url)
 
 	response_pages = []
 
-	request_id = Request.find_by(url: request_url)
+	@request_id = Request.find_by(url: request_url).id
 
 	# check to see if a link record for request-pages already exists
 	# if so, no need to execute another api call, use the cached pages data from the db
 
-	if Link.find_by(request_id: request_id).nil?
+	if Link.find_by(request_id: @request_id).nil?
 		response = HTTParty.get(request_url)
 		parsed_response = JSON.parse(response.body)
 		pages_data = parsed_response["items"]
@@ -100,14 +100,14 @@ def save_data_from_api(request_url)
 			page.save
 
 			new_link = Link.new
-			new_link.request_id = request_id
+			new_link.request_id = @request_id
 			new_link.page_id = page.id
 			new_link.save
 
 			response_pages.append(page)
 		end
 	else 
-		link_objs = Link.where(request_id: request_id)
+		link_objs = Link.where(request_id: @request_id)
 		link_objs.each do |obj|
 			page_id = obj.page_id
 			page = Page.find(page_id)
