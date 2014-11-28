@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141126185938) do
+ActiveRecord::Schema.define(version: 20141128161920) do
 
   create_table "links", force: true do |t|
     t.integer  "request_id"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20141126185938) do
     t.integer  "year"
     t.integer  "month"
     t.integer  "day"
+    t.text     "ocr_text"
   end
 
   create_table "publications", force: true do |t|

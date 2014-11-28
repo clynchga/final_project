@@ -1,25 +1,58 @@
-<h1>Results go here</h1>
+<h1>Search results</h1>
 
-<p><%= link_to "New Search", "/requests/new" %></p>
+<p><a href="/requests/new" class="btn btn-primary" role="button">New Search</a></p>
 
 <!-- sample thumbnail url: http://chroniclingamerica.loc.gov/lccn/sn86069496/1914-11-25/ed-1/seq-1/thumbnail.jpg -->
 
 <p><%= "Displaying results #{@pageindex1} through #{@pageindex2} of #{@total_pages}" %></p> 
 
 <div class="row">
-<% @pages.each do |p| %>
-	<% pub_name = Publication.find_by(lccn: p.lccn).title %>
-	<% months = [nil,"January","February","March","April","May","June","July","August","September","October","November","December"] %>
-	<% month = months[p.month] %>
-	<% text_url = p.img_url[0,(p.img_url.length - 4)] + "/ocr/" %>
-	<div class="col-md-3">
-		<%= "#{pub_name}" %>
-		<%= "#{month} #{p.day}, #{p.year}" %>
-		<%= image_tag "http://chroniclingamerica.loc.gov/lccn/#{p.lccn}/#{p.datefield}/ed-#{p.ed}/seq-#{p.seq}/thumbnail.jpg" %>
-		<%= link_to "PDF", p.img_url %>
-		<%= link_to "text", text_url %>
-	</div>
-<% end %>
+	
+	<% @pages.each do |p| %>
+		<div class="col-md-4">
+			<% pub_name = Publication.find_by(lccn: p.lccn).title %>
+			<% months = [nil,"January","February","March","April","May","June","July","August","September","October","November","December"] %>
+			<% month = months[p.month] %>
+			<% text_url = p.img_url[0,(p.img_url.length - 4)] + "/ocr/" %>
+			<div class="thumbnail">
+				<img data-src="http://chroniclingamerica.loc.gov/lccn/#{p.lccn}/#{p.datefield}/ed-#{p.ed}/seq-#{p.seq}/thumbnail.jpg">
+					<div class="caption">
+						<h6><strong><%= "#{pub_name}" %></strong></h6>
+						<h6><%= "#{month} #{p.day}, #{p.year}" %></h6>
+						<h6><%= "Page #{p.seq}" %></h6>
+						<!-- link trigger modals -->
+						<p><a data-toggle="modal" href="#{p.img_url}" data-target="#pdfModal">PDF</a> | <a data-toggle="modal" href="#{text_url}" data-target="#textModal">OCR text</a></p>
+						<!-- PDF modal -->
+						<div class="modal fade" id="pdfModal" tab-index="-1" role="dialog" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+									</div>
+									<div class="modal-body">
+										<%= image_tag "#{p.img_url}" %>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- OCR modal -->
+						<div class="modal fade" id="textModal" tab-index="-1" role="dialog" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+									</div>
+									<div class="modal-body">
+										<p><%= #highlight(p.ocrtext,[keywordarray]) %></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+	<% end %>
+	
 </div>
 
 <% if @total_pages > 20 %>
