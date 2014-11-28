@@ -6,7 +6,6 @@ end
 
 def create
 	@request = Request.new(request_params)
-	#@request.url = "http://chroniclingamerica.loc.gov/search/pages/results/?dateFilterType=range&date1=01%2F01%2F1836&date2=12%2F31%2F1922&andtext=&ortext=&phrasetext=&state=&lccn=&format=json"
 	@request.url = build_url(@request.year1, @request.month1, @request.day1, @request.year2, @request.month2, @request.day2, @request.andtext, @request.ortext, @request.phrasetext, @request.state, @request.lccn)
 	
 	respond_to do |format|	
@@ -16,12 +15,14 @@ def create
 			@request.num_pages = JSON.parse(raw_response.body)["totalItems"]
 			@request.index2 = JSON.parse(raw_response.body)["endIndex"]
 			@request.index1 = JSON.parse(raw_response.body)["startIndex"]
+
+			@request.save
 			
-			if @request.save
-	   			format.html { redirect_to "/results/#{@request.id}", notice: 'Saved request to db' }
-	   		else
-	  	 		format.html { render :new }
-			end
+			#if @request.save
+	   		format.html { redirect_to "/results/#{@request.id}", notice: 'Saved request to db' }
+	   		#else
+	  	 		#format.html { render :new }
+			#end
 	   	# if the request url already exists, pull the request object
 	   	else
 	   		@request = Request.find_by(url: @request.url)

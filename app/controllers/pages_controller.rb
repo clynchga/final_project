@@ -17,14 +17,13 @@ end
 def results
 	request_id = params[:id]
 
-	request = Request.find(request_id)
-	request_url = request.url
+	@request = Request.find(request_id)
+	request_url = @request.url
 
 	@pages = save_data_from_api(request_url)
-	@total_pages = request.num_pages
-	@pageindex1 = request.index1
-	@pageindex2 = request.index2
-	@requestid = request.id
+	@total_pages = @request.num_pages
+	@pageindex1 = @request.index1
+	@pageindex2 = @request.index2
 
 end
 
@@ -58,6 +57,7 @@ def paginate_results
 	@thispagenum = page_num.to_i
 
 	@requestid = orig_id
+	@request = request
 
 end
 
