@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :requests, only: [:create, :new, :index]
 
   resources :saves, only: [:create, :new, :index]
+  resources :searches, only: [:create, :new, :index]
 
   root 'requests#new'
 

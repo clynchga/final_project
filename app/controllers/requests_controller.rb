@@ -17,6 +17,7 @@ def create
 			@request.index1 = JSON.parse(raw_response.body)["startIndex"]
 
 			@request.save
+			Search.create({request_id: @request.id, user_id: current_user.id})
 			
 			#if @request.save
 	   		format.html { redirect_to "/results/#{@request.id}" }

@@ -17,8 +17,8 @@ lines.each do |l|
 	title = pub_data[2].split(") ")[0] + ")"
 	city = pub_data[2].match(/\((.+)\)/)[0]
 	lccn = pub_data[3]
-	if p.title.match('The ')
-		sort_title = p.title[4].capitalize + p.title[5,p.title.length-5]
+	if title.match('The ')
+		sort_title = title[4].capitalize + title[5,p.title.length-5]
 	else
 		sort_title = title
 	end

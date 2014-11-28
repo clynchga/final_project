@@ -20,7 +20,7 @@
 			<li><%= link_to "Settings" ,  edit_user_registration_path %></li>
 			<li><%= link_to("Logout", destroy_user_session_path, :method => :delete) %></li>
 			<li><%= link_to "Saves" , saves_path %></li>
-			<li><%= link_to "Recent Searches" , requests_path %></li>
+			<li><%= link_to "Recent Searches" , searches_path %></li>
 		<% else %>
 			<li><%= link_to "Sign Up" , new_user_registration_path %></li>
 			<li><%= link_to "Log In" , new_user_session_path %></li>
