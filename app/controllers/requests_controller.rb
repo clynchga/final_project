@@ -17,14 +17,14 @@ def create
 			@request.index1 = JSON.parse(raw_response.body)["startIndex"]
 
 			@request.save
-			
+
 			if user_signed_in? 
 				user_id = current_user.id
 			else
 				user_id = nil
 			end
 
-			#Search.create({request_id: @request.id, user_id: user_id})
+			Search.create({request_id: @request.id, user_id: user_id})
 			
 			#if @request.save
 	   		format.html { redirect_to "/results/#{@request.id}" }
@@ -34,6 +34,12 @@ def create
 	   	# if the request url already exists, pull the request object
 	   	else
 	   		@request = Request.find_by(url: @request.url)
+	   		if user_signed_in? 
+				user_id = current_user.id
+			else
+				user_id = nil
+			end
+	   		Search.create({request_id: @request.id, user_id: user_id})
 	   		format.html { redirect_to "/results/#{@request.id}" }
 		end
 	end

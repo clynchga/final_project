@@ -8,8 +8,8 @@ Rails.application.routes.draw do
 
   resources :requests, only: [:create, :new, :index]
 
-  resources :saves, only: [:create, :new, :index]
-  resources :searches, only: [:create, :new, :index]
+  resources :saves, only: [:index]
+  resources :searches, only: [:index]
 
   root 'requests#new'
 

@@ -1,0 +1,31 @@
+<h3>My recent searches</h3>
+<br>
+<br>
+
+<% if @request_ids.length == 0 %>
+	<p>No recent searches to show</p>
+	<p><a href="/requests/new" class="btn btn-primary" role="button">New Search</a></p>
+
+<% else %>
+
+	<% @requests.each do |request| %>
+		<% months = [nil,"January","February","March","April","May","June","July","August","September","October","November","December"] %>
+		<p><strong>Date range:</strong><%= " #{months[request.month1]} #{request.day1}, #{request.year1} through #{months[request.month2]} #{request.day2}, #{request.year2}" %></p>
+		<% if request.andtext != "" || request.ortext != "" || request.phrasetext != "" %>
+			<p><strong>Keyword:</strong><%= " #{request.andtext} #{request.ortext} #{request.phrasetext}" %></p>
+		<% end %>
+		<% if request.state != "" %>
+			<p><strong>State:</strong><%= " #{request.state}" %></p>
+		<% end %>
+		<% if request.lccn != "" %>
+			<p><strong>Publication:</strong><%= " #{Publication.find_by(lccn: request.lccn).title}" %></p>
+		<% end %>
+		<%= link_to "Go to search results" , "/results/#{request.id}" %>
+		<br>
+		<br>
+		<br>
+	<% end %>
+
+	<p><a href="/requests/new" class="btn btn-primary" role="button">New Search</a></p>
+
+<% end %>
