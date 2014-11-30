@@ -1,17 +1,4 @@
-# require 'httparty'
-# require 'json'
-
 class PagesController < ApplicationController
-
-# include HTTParty
-
-def textsearch
-	sample_text = 'liquor'
-	date1 = 1914
-	date2 = 1914
-	response = HTTParty.get("http://chroniclingamerica.loc.gov/search/pages/results/?dateFilterType=yearRange&date1=1914&date2=1914&andtext=liquor&format=json")
-	@pages = JSON.parse(response.body)
-end
 
 
 def results

@@ -13,8 +13,6 @@ Rails.application.routes.draw do
 
   root 'requests#new'
 
-  get '/example' => 'pages#textsearch'
-
   get '/results/:id' => 'pages#results'
   get '/results/:id/page/:pagenum' => 'pages#paginate_results'
 
