@@ -82,7 +82,14 @@ def save_data_from_api(request_url)
 			page.date = pd["date"]
 			page.seq = pd["sequence"]
 			page.lccn = pd["lccn"]
-			page.ocr_text = pd["ocr_eng"]
+
+			raw_text = pd["ocr_eng"]
+			if raw_text.length > 0
+				striptext = raw_text.gsub!(/\W/,' ')
+				page.ocr_text = striptext
+			else 
+				page.ocr_text = raw_text
+			end
 
 			slicelength = pd["url"].length - 5
 			page.img_url = pd["url"][0,slicelength] + ".pdf"

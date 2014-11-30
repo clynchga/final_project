@@ -1,0 +1,33 @@
+.search-form-header {
+	background-color: rgb(204, 204, 208);
+	margin-top: 25px;
+	padding: 10px;
+	border-radius: 1px;
+	border-color: black;
+}
+
+
+.search-form-label {
+	margin: 0px;
+	font-size: large;
+	font-weight: bold;
+	font-family: Arial;
+	font-style: italic;
+
+}
+
+label {
+	font-family: Arial;
+}
+
+.search-form-section {
+	background-color: light gray;
+	margin-bottom:25px;
+	padding: 25px;
+	border-radius: 1px;
+	border-color: black;
+}
+
+#request_lccn {
+	width: 400px;
+}

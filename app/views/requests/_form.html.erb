@@ -11,95 +11,108 @@
     </div>
   <% end %>
 
-
-<p>Choose a date range</p>
+<div class="search-form-header">
+<p class="search-form-label">Choose a date range</p>
+</div>
 
 <div class="row">
-  <div class="col-md-5">
+  <div class="search-form-section">
+    <div class="col-md-5">
+      <p>From</p>
+      <div class="col-md-3">
+        <div class="field">
+          <%= f.label "Year" %>
+          <%= f.select :year1, (1836..1922) %>
+        </div>
+      </div>
+      <div class="col-md-3">
+          <div class="field">
+          <%= f.label "Month" %>
+          <%= f.select :month1, (1..12) %>
+        </div>
+      </div>
+      <div class="col-md-3">
+          <div class="field">
+          <%= f.label "Day" %>
+          <%= f.select :day1, (1..31) %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5">
+    <p>To</p>
+      <div class="col-md-3">
+          <div class="field">
+          <%= f.label "Year" %>
+          <%= f.select :year2, (1836..1922), :selected => 1922 %>
+        </div>
+      </div>
+      <div class="col-md-3">
+          <div class="field">
+          <%= f.label "Month" %>
+          <%= f.select :month2, (1..12), :selected => 12 %>
+        </div>
+      </div>
+      <div class="col-md-3">
+          <div class="field">
+          <%= f.label "Day" %>
+          <%= f.select :day2, (1..31), :selected => 31 %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="search-form-header">
+<p class="search-form-label">(Optional) Search by keyword</p>
+</div>
+
+<div class="row">
+  <div class="search-form-section">
     <div class="col-md-3">
       <div class="field">
-        <%= f.label "Year" %>
-        <%= f.select :year1, (1836..1922) %>
+        <%= f.label "Contains ALL of the keywords" %><br>
+        <%= f.text_area :andtext %>
       </div>
     </div>
     <div class="col-md-3">
-        <div class="field">
-        <%= f.label "Month" %>
-        <%= f.select :month1, (1..12) %>
+      <div class="field">
+        <%= f.label "Contains ANY of the keywords" %><br>
+        <%= f.text_area :ortext %>
       </div>
     </div>
     <div class="col-md-3">
-        <div class="field">
-        <%= f.label "Day" %>
-        <%= f.select :day1, (1..31) %>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-5">
-    <div class="col-md-3">
-        <div class="field">
-        <%= f.label "Year" %>
-        <%= f.select :year2, (1836..1922), :selected => 1922 %>
-      </div>
-    </div>
-    <div class="col-md-3">
-        <div class="field">
-        <%= f.label "Month" %>
-        <%= f.select :month2, (1..12), :selected => 12 %>
-      </div>
-    </div>
-    <div class="col-md-3">
-        <div class="field">
-        <%= f.label "Day" %>
-        <%= f.select :day2, (1..31), :selected => 31 %>
+      <div class="field">
+        <%= f.label "Contains the phrase" %><br>
+        <%= f.text_area :phrasetext %>
       </div>
     </div>
   </div>
 </div>
 
-<p>(Optional) Search by keyword</p>
-
-<div class="row">
-  <div class="col-md-3">
-    <div class="field">
-      <%= f.label "Contains ALL of the keywords" %><br>
-      <%= f.text_area :andtext %>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="field">
-      <%= f.label "Contains ANY of the keywords" %><br>
-      <%= f.text_area :ortext %>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="field">
-      <%= f.label "Contains the phrase" %><br>
-      <%= f.text_area :phrasetext %>
-    </div>
-  </div>
+<div class="search-form-header">
+<p class="search-form-label">(Optional) Narrow results by state of publication or newspaper title</p>
 </div>
 
-<p>(Optional) Narrow results by state of publication or newspaper title</p>
-
 <div class="row">
-  <div class="col-md-3">
-    <div class="field">
-      <%= f.label "State" %>
-      <%= f.select :state, Publication.uniq.pluck(:state), :include_blank => true %>
+  <div class="search-form-section">
+    <div class="col-md-3">
+      <div class="field">
+        <%= f.label "State" %>
+        <%= f.select :state, Publication.uniq.pluck(:state), :include_blank => true %>
+      </div>
     </div>
-  </div>
-  <div class="col-md-9">
-    <div class="field"> 
-      <%= f.label "Newspaper Title" %>
-      <%= f.select( :lccn, Publication.all.order('sort_title').collect { |p| [p.title, p.lccn] }, :include_blank => true, :style => "width:400px") %>
+    <div class="col-md-9">
+      <div class="field"> 
+        <%= f.label "Newspaper Title" %>
+        <%= f.select( :lccn, Publication.all.order('sort_title').collect { |p| [p.title, p.lccn] }, :include_blank => true, :style => "width:400px") %>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="row">
     <div class="actions">
-      <%= f.submit "Search", class: "btn btn-primary" %>  
+      <%= f.submit "Search", class: "btn btn-primary btn-large col-md-6 col-md-offset-3" %>  
     </div>
 </div>
 

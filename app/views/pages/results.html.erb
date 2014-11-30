@@ -1,5 +1,10 @@
-<h3>Search results</h3>
-<p><em><%= "Dates: #{@request.month1}/#{@request.day1}/#{@request.year1} - #{@request.month2}/#{@request.day2}/#{@request.year2}" %></em></p>
+<div class ="pull-right">
+	<a href="/requests/new" class="btn btn-primary" role="button" margin-top="20">New Search</a>
+</div>
+
+<h1>Search results</h1>
+<% months = [nil,"January","February","March","April","May","June","July","August","September","October","November","December"] %>
+<p><em><%= "Dates: #{months[@request.month1]} #{@request.day1}, #{@request.year1} - #{months[@request.month2]} #{@request.day2}, #{@request.year2}" %></em></p>
 <% if @request.andtext != "" || @request.ortext != "" || @request.phrasetext != "" %>
 	<p><em><%= "Keyword: #{@request.andtext} #{@request.ortext} #{@request.phrasetext}" %></em></p>
 <% end %>
@@ -9,14 +14,13 @@
 <% if @request.lccn != "" %>
 	<p><em><%= "Publication: #{Publication.find_by(lccn: @request.lccn).title}" %></em></p>
 <% end %>
-<p><a href="/requests/new" class="btn btn-primary" role="button" margin-top="20">New Search</a></p>
-
+<br>
 <p><%= "Displaying results #{@pageindex1} through #{@pageindex2} of #{@total_pages}" %></p> 
 
 <div class="row">
 
 	<% @pages.each do |p| %>
-		<div class="col-md-4">
+		<div class="col-md-4 page-wrapper">
 			<% pub_name = Publication.find_by(lccn: p.lccn).title %>
 			<% months = [nil,"January","February","March","April","May","June","July","August","September","October","November","December"] %>
 			<% month = months[p.month] %>
@@ -34,7 +38,11 @@
 						<h6><strong><%= "#{pub_name}" %></strong></h6>
 						<h6><%= "#{month} #{p.day}, #{p.year}; Page #{p.seq}" %></h6>
 						<!-- links and triggers -->
-						<p><a data-toggle="modal" href="#{text_url}" data-target="#textModal">OCR text</a> | <%= link_to "Read on LOC", "#{loc_url}", :target => "blank" %> |  <button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Save</button></p>
+						<% if user_signed_in? %>
+							<p><a data-toggle="modal" href="#{text_url}" data-target="#textModal">OCR text</a> | <%= link_to "Read on LOC", "#{loc_url}", :target => "blank" %> |  <button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Save</button></p>
+						<% else %>
+							<p><a data-toggle="modal" href="#{text_url}" data-target="#textModal">OCR text</a> | <%= link_to "Read on LOC", "#{loc_url}", :target => "blank" %></p>
+						<% end %>
 						<!-- OCR modal -->
 						<div class="modal fade" id="textModal" tab-index="-1" role="dialog" aria-hidden="true">
 							<div class="modal-dialog">
@@ -43,7 +51,7 @@
 										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 									</div>
 									<div class="modal-body">
-										<p><%= highlight(p.ocr_text, highlight_keyword) %></p>
+										<p><%= highlight(sanitize(p.ocr_text), highlight_keyword, :highlighter => '<mark class="mark-text">\1</mark>') %></p>
 									</div>
 								</div>
 							</div>
