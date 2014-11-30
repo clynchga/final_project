@@ -1,3 +1,3 @@
-class Save < ActiveRecord:Base
+class Save < ActiveRecord::Base
 
 end

@@ -17,6 +17,7 @@ def create
 			@request.index1 = JSON.parse(raw_response.body)["startIndex"]
 
 			@request.save
+			
 			if user_signed_in? 
 				user_id = current_user.id
 			else

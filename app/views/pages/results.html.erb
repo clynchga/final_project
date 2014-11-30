@@ -25,16 +25,15 @@
 			<% loc_url = p.img_url[0,(p.img_url.length - 4)] + "/" %>
 			<% thumbnail_url = "http://chroniclingamerica.loc.gov/lccn/#{p.lccn}/#{p.datefield}/ed-#{p.ed}/seq-#{p.seq}/thumbnail.jpg" %>
 			<% highlight_keyword = [] %>
-			<% highlight_keyword.append(@request.andtext.split('+')) %>
-			<% highlight_keyword.append(@request.ortext.split('+')) %>
-			<% highlight_keyword.append(@request.phrasetext.split('+')) %>
+			<% highlight_keyword = highlight_keyword + (@request.andtext.split('+')) %>
+			<% highlight_keyword = highlight_keyword + (@request.ortext.split('+')) %>
+			<% highlight_keyword = highlight_keyword + (@request.phrasetext.split('+')) %>
 			<div class="thumbnail">
 				<%= image_tag("http://chroniclingamerica.loc.gov/lccn/#{p.lccn}/#{p.datefield}/ed-#{p.ed}/seq-#{p.seq}/thumbnail.jpg", title:"#{p.id}") %>
 					<div class="caption">
 						<h6><strong><%= "#{pub_name}" %></strong></h6>
 						<h6><%= "#{month} #{p.day}, #{p.year}" %></h6>
 						<h6><%= "Page #{p.seq}" %></h6>
-						<p><%= puts highlight_keyword %></p>
 						<!-- link triggers -->
 						<p><%= link_to "PDF", "#{p.img_url}", :target => "blank" %> | <a data-toggle="modal" href="#{text_url}" data-target="#textModal">OCR text</a> | <%= link_to "Read on LOC", "#{loc_url}", :target => "blank" %></p>
 						<!-- OCR modal -->
@@ -45,7 +44,7 @@
 										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 									</div>
 									<div class="modal-body">
-										<p><%= highlight(p.ocr_text, highlight_keyword[0]) %></p>
+										<p><%= highlight(p.ocr_text, highlight_keyword) %></p>
 									</div>
 								</div>
 							</div>
