@@ -40,7 +40,8 @@
 						<h6><%= "#{month} #{p.day}, #{p.year}; Page #{p.seq}" %></h6>
 						<!-- links and triggers -->
 						<% if user_signed_in? %>
-							<p><a data-toggle="modal" href="#{text_url}" data-target="#textModal">OCR text</a> | <%= link_to "Read on LOC", "#{loc_url}", :target => "blank" %> |  <button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Save</button></p>
+							<% uid = current_user.id %>
+							<p><a data-toggle="modal" href="#{text_url}" data-target="#textModal">OCR text</a> | <%= link_to "Read on LOC", "#{loc_url}", :target => "blank" %></p><%= button_to "Save", { :controller => "saves", action: "create", user_id: current_user.id, page_id: p.id }, remote: true, data: {confirm: "Save this page?" }, :id => "save-button-#{p.id}" , :class => "btn btn-default btn-sm" %>
 						<% else %>
 							<p><a data-toggle="modal" href="#{text_url}" data-target="#textModal">OCR text</a> | <%= link_to "Read on LOC", "#{loc_url}", :target => "blank" %></p>
 						<% end %>
