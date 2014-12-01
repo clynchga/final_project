@@ -19,6 +19,15 @@ def create
 	@page_id = page_id
 end
 
+def new
+end
+
+def edit
+end
+
+def show
+end
+
 def destroy
 	@user_id = Save.find(params[:id]).user_id
 	@page_id = Save.find(params[:id]).page_id
@@ -32,5 +41,6 @@ def destroy
 
 	redirect_to :action => 'index'
 end
+
 
 end 
