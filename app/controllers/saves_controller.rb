@@ -19,5 +19,18 @@ def create
 	@page_id = page_id
 end
 
+def destroy
+	@user_id = Save.find(params[:id]).user_id
+	@page_id = Save.find(params[:id]).page_id
+	@saves = Save.where("user_id = ? AND page_id = ?", @user_id, @page_id)
+	@save_ids = []
+	@saves.each do |s|
+		@save_ids.append(s.id)
+	end
+
+	Save.delete(@save_ids)
+
+	redirect_to :action => 'index'
+end
 
 end 

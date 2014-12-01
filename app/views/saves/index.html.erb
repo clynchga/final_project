@@ -9,6 +9,7 @@
 
 <% @pages.each do |p| %>
 		<div class="col-md-4 page-wrapper">
+			<% save_id = Save.where("user_id = ? AND page_id = ?", current_user.id, p.id).first.id %>
 			<% pub_name = Publication.find_by(lccn: p.lccn).title %>
 			<% months = [nil,"January","February","March","April","May","June","July","August","September","October","November","December"] %>
 			<% month = months[p.month] %>
@@ -16,13 +17,14 @@
 			<% loc_url = p.img_url[0,(p.img_url.length - 4)] + "/" %>
 			<% thumbnail_url = "http://chroniclingamerica.loc.gov/lccn/#{p.lccn}/#{p.datefield}/ed-#{p.ed}/seq-#{p.seq}/thumbnail.jpg" %>
 			<div class="thumbnail">
-				<%= link_to(image_tag("http://chroniclingamerica.loc.gov/lccn/#{p.lccn}/#{p.datefield}/ed-#{p.ed}/seq-#{p.seq}/thumbnail.jpg", title:"#{p.id}"), "#{p.img_url}", :target => "blank") %>
+				<%= link_to(image_tag("http://chroniclingamerica.loc.gov/lccn/#{p.lccn}/#{p.datefield}/ed-#{p.ed}/seq-#{p.seq}/thumbnail.jpg", title:"#{save_id}"), "#{p.img_url}", :target => "blank") %>
 					<div class="caption">
 						<!-- Thumbnail caption and page information -->
 						<h6><strong><%= "#{pub_name}" %></strong></h6>
 						<h6><%= "#{month} #{p.day}, #{p.year}; Page #{p.seq}" %></h6>
 						<!-- links and triggers -->
 						<p><a data-toggle="modal" href="#{text_url}" data-target="#textModal">OCR text</a> | <%= link_to "Read on LOC", "#{loc_url}", :target => "blank" %></p>
+						<%= button_to "Delete", "saves/#{save_id}", method: :delete, data: {confirm: "Delete your saved page?" }, :id => "delete-save-#{save_id}", :class => "btn btn-default btn-xs" %>
 						<!-- OCR modal -->
 						<div class="modal fade" id="textModal" tab-index="-1" role="dialog" aria-hidden="true">
 							<div class="modal-dialog">
@@ -36,6 +38,7 @@
 								</div>
 							</div>
 						</div>
+
 					</div>
 			</div>
 		</div>
