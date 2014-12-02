@@ -10,6 +10,7 @@ def index
 
 	@pages = Page.find(@save_ids)
 	# returns an array of page objects, or an empty array
+	@pages.sort! {|x,y| y.id <=> x.id}
 end
 
 def create
