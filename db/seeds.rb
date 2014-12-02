@@ -18,9 +18,9 @@ lines.each do |l|
 	city = pub_data[2].match(/\((.+)\)/)[0]
 	lccn = pub_data[3]
 	if title.match('The ')
-		sort_title = title[4,title.length-4]
+		sort_title = title[4].capitalize + title[5,title.length-5]
 	else
-		sort_title = title
+		sort_title = title[0].capitalize + title[1,title.length-1]
 	end
 	Publication.create(title: title, state: state, lccn: lccn, city: city, sort_title: sort_title)
 end

@@ -10,7 +10,21 @@ def index
 
 	@pages = Page.find(@save_ids)
 	# returns an array of page objects, or an empty array
-	@pages.sort! {|x,y| y.id <=> x.id}
+	
+
+	# for sorting options
+	sort = params[:sort]
+
+	if sort == "pub" # sort by publication title
+		@pages.sort! {|x,y| Publication.find_by(lccn: x.lccn).sort_title <=> Publication.find_by(lccn: y.lccn).sort_title}
+	elsif sort == "dateasc" # sort by publication date (asc)
+		@pages.sort! {|x,y| x.date <=> y.date}
+	elsif sort == "datedesc" # sort by publication date (desc)
+		@pages.sort! {|x,y| y.date <=> x.date}
+	else # default: sort by save creation date (desc)
+		@pages.sort! {|x,y| y.id <=> x.id}
+	end
+
 end
 
 def create

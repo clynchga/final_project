@@ -1,11 +1,22 @@
 <h3>My saved pages</h3>
 <br>
-<br>
 
 <% if @pages.length == 0 %>
+	<br>
 	<p>No saved pages to show</p>
 	<p><a href="/requests/new" class="btn btn-primary" role="button">New Search</a></p>
 <% else %>
+
+<nav role="navigation">
+	<ul class="nav nav-tabs" id="saves-sort-tabs">
+	  <li role="presentation" id="saves-sort-default"><a href="/saves">Most Recent</a></li>
+	  <li role="presentation" id="saves-sort-dateasc"><a href="/saves?sort=dateasc">Publish Date Asc</a></li>
+	  <li role="presentation" id="saves-sort-datedesc"><a href="/saves?sort=datedesc">Publish Date Desc</a></li>
+	  <li role="presentation" id="saves-sort-pub"><a href="/saves?sort=pub">Publication Title</a></li>
+	</ul>
+</nav>
+
+<br>
 
 <% @pages.each do |p| %>
 		<div class="col-md-4 page-wrapper">
