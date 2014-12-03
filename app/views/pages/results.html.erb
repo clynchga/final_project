@@ -40,12 +40,12 @@
 						<h6><%= "#{month} #{p.day}, #{p.year}; Page #{p.seq}" %></h6>
 						<!-- links and triggers -->
 						<% if user_signed_in? %>
-							<p><a data-toggle="modal" href="#{text_url}" data-target="#textModal">OCR text</a> | <%= link_to "Read on LOC", "#{loc_url}", :target => "blank" %></p><%= button_to "Save", { :controller => "saves", action: "create", user_id: current_user.id, page_id: p.id }, remote: true, data: {confirm: "Save this page?" }, :id => "save-button-#{p.id}" , :class => "btn btn-default btn-sm" %>
+							<p><a data-toggle="modal" href="#" data-target="#textModal-<%=p.id%>">OCR text</a> | <%= link_to "Read on LOC", "#{loc_url}", :target => "blank" %></p><%= button_to "Save", { :controller => "saves", action: "create", user_id: current_user.id, page_id: p.id }, remote: true, data: {confirm: "Save this page?" }, :id => "save-button-#{p.id}" , :class => "btn btn-default btn-sm" %>
 						<% else %>
-							<p><a data-toggle="modal" href="#{text_url}" data-target="#textModal">OCR text</a> | <%= link_to "Read on LOC", "#{loc_url}", :target => "blank" %></p>
+							<p><a data-toggle="modal" href="#" data-target="#textModal-<%=p.id%>">OCR text</a> | <%= link_to "Read on LOC", "#{loc_url}", :target => "blank" %></p>
 						<% end %>
 						<!-- OCR modal -->
-						<div class="modal fade" id="textModal" tab-index="-1" role="dialog" aria-hidden="true">
+						<div class="modal fade" id="textModal-<%=p.id%>" tab-index="-1" role="dialog" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
@@ -53,7 +53,7 @@
 									</div>
 									<div class="modal-body">
 										<% if p.ocr_text != nil %>
-											<p><%= highlight(sanitize(p.ocr_text), highlight_keyword, :highlighter => '<mark class="mark-text">\1</mark>') %></p>
+											<p><%= highlight(p.ocr_text, highlight_keyword, :highlighter => '<mark class="mark-text">\1</mark>') %></p>
 										<% end %>
 									</div>
 								</div>
