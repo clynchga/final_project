@@ -98,7 +98,7 @@
     <div class="col-md-3">
       <div class="field">
         <%= f.label "State" %>
-        <%= f.select :state, Publication.uniq.pluck(:state), :include_blank => true %>
+        <%= f.select :state, Publication.all.order('state').uniq.pluck(:state), :include_blank => true %>
       </div>
     </div>
     <div class="col-md-9">
