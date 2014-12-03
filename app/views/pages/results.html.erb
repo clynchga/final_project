@@ -40,7 +40,6 @@
 						<h6><%= "#{month} #{p.day}, #{p.year}; Page #{p.seq}" %></h6>
 						<!-- links and triggers -->
 						<% if user_signed_in? %>
-							<% uid = current_user.id %>
 							<p><a data-toggle="modal" href="#{text_url}" data-target="#textModal">OCR text</a> | <%= link_to "Read on LOC", "#{loc_url}", :target => "blank" %></p><%= button_to "Save", { :controller => "saves", action: "create", user_id: current_user.id, page_id: p.id }, remote: true, data: {confirm: "Save this page?" }, :id => "save-button-#{p.id}" , :class => "btn btn-default btn-sm" %>
 						<% else %>
 							<p><a data-toggle="modal" href="#{text_url}" data-target="#textModal">OCR text</a> | <%= link_to "Read on LOC", "#{loc_url}", :target => "blank" %></p>
@@ -53,7 +52,9 @@
 										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 									</div>
 									<div class="modal-body">
-										<p><%= highlight(sanitize(p.ocr_text), highlight_keyword, :highlighter => '<mark class="mark-text">\1</mark>') %></p>
+										<% if p.ocr_text != nil %>
+											<p><%= highlight(sanitize(p.ocr_text), highlight_keyword, :highlighter => '<mark class="mark-text">\1</mark>') %></p>
+										<% end %>
 									</div>
 								</div>
 							</div>
@@ -68,4 +69,7 @@
 <% if @total_pages > 20 %>
 	<div class="btn btn-default" role="button"><%= link_to "Next page" , "/results/#{@request.id}/page/2" %></div>
 <% end %>
+
+<br>
+<br>
 
